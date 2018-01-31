@@ -35,7 +35,7 @@ capture() {
 		formData.append('picture', { uri: data.uri, name: 'photo.jpg', type: 'image/jpg' });
 
 		axios
-		.post('Votre URL', formData)
+		.post('https://a5d68759.ngrok.io/socks/web/app_dev.php/api/user/', formData)
 		.then(res => {
 			Vibration.vibrate();
 			this.setState(prevState => {

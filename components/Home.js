@@ -6,44 +6,53 @@ import {StackNavigator} from 'react-navigation';
 import {Keyboard} from 'react-native';
 import axios from 'axios';
 
-
 export default class Home extends React.Component {
 
 constructor(props){
 	super(props)
 		this.state={
-			marques:"",
-			email:[]
 		};
 }
 
-componentDidMount() {
+onSubmit() {
 	axios
-	.get ('https://74ba2f18.ngrok.io')
+	.post ('https://a5d68759.ngrok.io/socks/web/app_dev.php/api/user/', {
+		email: this.state.email
+	})
 	.then(response => {
-		this.setState({ email: response.data });
+		this.setState({ 
+			email: ""
+		});
 		})
 		.catch((error) => {
 		console.log(error);
 	})
+	axios
+	.get('https://a5d68759.ngrok.io/socks/web/app_dev.php/api/user/')
+	.then(function (response) {
+		if(response.status == 200){
+			console.log(response.status);
+			
+		}
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
 }
 
 	render() {
-		const { navigate } = this.props.navigation;
 		return (
 			<ScrollView style={styles.container} alignItems={'center'} justifyContent= {'center'} >
 				<Image source={require('../images/cerf.png')}/>
 				<TextInput style={{width: 250, height: 30, marginBottom: 15}} keyboardType='email-address'
-				placeholder='Votre email' 
+				placeholder='Votre email' value={this.state.email} onChangeText={(email) =>this.setState({email})}
 				onSubmitEditing={Keyboard.dismiss} />
 				<Button
-				onPress={() =>
-					navigate('Signup')}
+				onPress={()=>this.onSubmit()}
 				title="Submit"
 				color="#EB9800"
 				accessibilityLabel="Learn more about this submit"
 			/>
-			{/* {this.state.email.map(emai =><Text>{emai.marques}</Text>)} */}
 			</ScrollView>
 		);
 	}
